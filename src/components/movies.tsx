@@ -2,15 +2,19 @@ import * as React from "react";
 import { Component } from "react";
 import { getMovies, deleteMovie, Movie } from "../services/fakeMovieService";
 import Like from "./common/like";
+import Pagination from "./common/pagination";
+import { paginate } from "../utils/paginate";
 
 interface MoviesProps {}
 
 interface MoviesState {
   movies: Movie[];
+  currentPage: number;
+  pageSize: number;
 }
 
 class Movies extends React.Component<MoviesProps, MoviesState> {
-  state = { movies: getMovies() };
+  state = { movies: getMovies(), currentPage: 1, pageSize: 4 };
   handleDelete = (movie: Movie) => {
     deleteMovie(movie._id);
     this.setState({ movies: getMovies() });
@@ -25,14 +29,21 @@ class Movies extends React.Component<MoviesProps, MoviesState> {
     this.setState({ movies });
   };
 
-  render() {
-    const { movies } = this.state;
+  handlePageChange = (page: number) => {
+    this.setState({ currentPage: page });
+  };
 
-    if (movies.length === 0) return <p>There are no movies in the database.</p>;
+  render() {
+    const { movies: allMovies, currentPage, pageSize } = this.state;
+
+    if (allMovies.length === 0)
+      return <p>There are no movies in the database.</p>;
+
+    const movies = paginate(allMovies, currentPage, pageSize);
 
     return (
       <React.Fragment>
-        <p>There are {movies.length} in the database.</p>
+        <p>There are {allMovies.length} in the database.</p>
         <table className="table">
           <thead>
             <tr>
@@ -45,7 +56,7 @@ class Movies extends React.Component<MoviesProps, MoviesState> {
             </tr>
           </thead>
           <tbody>
-            {this.state.movies.map((movie) => {
+            {movies.map((movie) => {
               return (
                 <tr>
                   <th scope="row">{movie.title}</th>
@@ -74,6 +85,12 @@ class Movies extends React.Component<MoviesProps, MoviesState> {
             })}
           </tbody>
         </table>
+        <Pagination
+          itemsCount={allMovies.length}
+          pageSize={pageSize}
+          currentPage={currentPage}
+          onPageChange={this.handlePageChange}
+        ></Pagination>
       </React.Fragment>
     );
   }
