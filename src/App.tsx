@@ -8,7 +8,6 @@ function App() {
   return (
     <div className="App">
       <main className="container">
-        Vidly
         <Movies></Movies>
       </main>
     </div>

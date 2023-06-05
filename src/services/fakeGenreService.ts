@@ -9,6 +9,6 @@ export function getGenres() {
 }
 
 export interface Genre {
-  _id: String;
-  name: String;
+  _id: string;
+  name: string;
 }
