@@ -1,3 +1,4 @@
+import { IIndexable } from "../components/common/tableBody";
 import { Genre, genres } from "./fakeGenreService";
 
 const movies: Movie[] = [
@@ -106,7 +107,7 @@ export function deleteMovie(id: String) {
 }
 
 export interface Movie {
-  _id: String;
+  _id: string;
   title: String;
   genre: Genre;
   numberInStock: Number;
