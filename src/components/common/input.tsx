@@ -6,9 +6,10 @@ interface InputProps {
   label: string;
   value: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  error: string;
 }
 
-const Input = ({ name, label, value, onChange }: InputProps) => {
+const Input = ({ name, label, value, onChange, error }: InputProps) => {
   return (
     <div className="mb-3">
       <label htmlFor={name} className="form-label">
@@ -21,6 +22,7 @@ const Input = ({ name, label, value, onChange }: InputProps) => {
         onChange={onChange}
         name={name}
       />
+      {error && <div className="alert alert-danger">{error}</div>}
     </div>
   );
 };

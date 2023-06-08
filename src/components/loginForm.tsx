@@ -7,7 +7,7 @@ interface LoginFormProps {}
 
 interface LoginFormState {
   account: Account;
-  errors: Account;
+  errors: Account | null;
 }
 
 interface Account {
@@ -23,25 +23,25 @@ class LoginForm extends React.Component<LoginFormProps, LoginFormState> {
   };
 
   validate = () => {
-    const errors = { ...this.state.errors };
+    const errors = {} as Account;
+    const { account } = this.state;
 
-    if (this.state.account.username === "") {
+    if (account.username.trim() === "") {
       errors.username = "Username is required";
     }
 
-    if (this.state.account.password === "") {
+    if (account.password.trim() === "") {
       errors.password = "Password is required";
     }
 
-    return errors;
+    return Object.keys(errors).length === 0 ? null : errors;
   };
 
   handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const errors = this.validate();
-    this.setState({ errors });
+    this.setState({ errors: errors || ({} as Account) });
     if (errors) {
-      alert("Empty!");
       return;
     }
 
@@ -64,7 +64,7 @@ class LoginForm extends React.Component<LoginFormProps, LoginFormState> {
   };
 
   render() {
-    const { account } = this.state;
+    const { account, errors } = this.state;
 
     return (
       <div className="containeer">
@@ -76,12 +76,14 @@ class LoginForm extends React.Component<LoginFormProps, LoginFormState> {
               value={account.username}
               label="Username"
               onChange={this.handleChange}
+              error={errors.username}
             ></Input>
             <Input
               name="password"
               value={account.password}
               label="Password"
               onChange={this.handleChange}
+              error={errors.password}
             ></Input>
             <div className="mb-3 form-check">
               <input
