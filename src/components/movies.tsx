@@ -109,6 +109,7 @@ class Movies extends React.Component<MoviesProps, MoviesState> {
 
     return (
       <React.Fragment>
+        <h1>Movies</h1>
         <div className="row mt-5">
           <div className="col-md-2">
             <ListGroup

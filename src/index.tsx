@@ -3,19 +3,13 @@ import ReactDOM from "react-dom";
 import "./index.css";
 import "font-awesome/css/font-awesome.css";
 import App from "./App";
+import { BrowserRouter } from "react-router-dom";
 
 ReactDOM.render(
   <React.StrictMode>
-    <header className="App-header">
-      <nav className="navbar navbar-expand-lg navbar-light bg-light">
-        <div className="container-fluid">
-          <a className="navbar-brand" href="#">
-            Vidly
-          </a>
-        </div>
-      </nav>
-    </header>
-    <App />
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
   </React.StrictMode>,
   document.getElementById("root")
 );

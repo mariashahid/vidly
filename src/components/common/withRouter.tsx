@@ -1,0 +1,36 @@
+import React from "react";
+import { Component } from "react";
+
+import {
+  useLocation,
+  useNavigate,
+  useParams,
+  useSearchParams,
+} from "react-router-dom";
+
+/** @deprecated Use `React Router hooks` instead */
+export interface WithRouterProps {
+  location: ReturnType<typeof useLocation>;
+  params: Record<string, string>;
+  navigate: ReturnType<typeof useNavigate>;
+}
+
+/** @deprecated Use `React Router hooks` instead */
+export const withRouter = <Props extends WithRouterProps, State>(
+  Component: React.ComponentType<Props>
+) => {
+  return (props: Omit<Props, keyof WithRouterProps>) => {
+    const location = useLocation();
+    const params = useParams();
+    const navigate = useNavigate();
+
+    return (
+      <Component
+        {...(props as Props)}
+        location={location}
+        params={params}
+        navigate={navigate}
+      />
+    );
+  };
+};
