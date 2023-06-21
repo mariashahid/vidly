@@ -7,21 +7,27 @@ import { FormState } from "./common/form";
 import Form from "./common/form";
 import { IIndexable } from "./common/tableBody";
 
-interface LoginFormProps extends FormProps {}
+interface RegisterFormProps extends FormProps {}
 
-type LoginFormState = FormState<Account> & {
+type RegisterFormState = FormState<Account> & {
   loggedIn: boolean;
 };
 
 interface Account extends IIndexable<any> {
-  username: string;
+  email: string;
   password: string;
+  name: string;
 }
 
-class LoginForm extends Form<Account, Account, LoginFormProps, LoginFormState> {
+class RegisterForm extends Form<
+  Account,
+  Account,
+  RegisterFormProps,
+  RegisterFormState
+> {
   //   username = React.createRef<HTMLInputElement>();
   state = {
-    data: { username: "", password: "" },
+    data: { email: "", password: "", name: "" },
     errors: {} as Account,
     loggedIn: true,
   };
@@ -30,17 +36,15 @@ class LoginForm extends Form<Account, Account, LoginFormProps, LoginFormState> {
     super(props);
 
     this.schema = {
-      username: Joi.string().required().label("Username"),
-      password: Joi.string().required().label("Password"),
+      email: Joi.string().email().required().label("Email"),
+      password: Joi.string().min(5).required().label("Password"),
+      name: Joi.string().required().label("Name"),
     };
   }
 
   doSubmit = () => {
     alert(
-      "Hi! user:" +
-        this.state.data.username +
-        " pwd: " +
-        this.state.data.password
+      "Hi! user:" + this.state.data.email + " pwd: " + this.state.data.password
     );
   };
   componentDidMount(): void {}
@@ -51,21 +55,12 @@ class LoginForm extends Form<Account, Account, LoginFormProps, LoginFormState> {
     return (
       <div className="containeer">
         <div className="row">
-          <h1>Login</h1>
+          <h1>Register</h1>
           <form onSubmit={this.handleSubmit}>
-            {this.renderInput("username", "Username", "email")}
+            {this.renderInput("email", "Email", "email")}
             {this.renderInput("password", "Password", "password")}
-            <div className="mb-3 form-check">
-              <input
-                type="checkbox"
-                className="form-check-input"
-                id="exampleCheck1"
-              />
-              <label className="form-check-label" htmlFor="exampleCheck1">
-                Check me out
-              </label>
-            </div>
-            {this.renderButton("Login")}
+            {this.renderInput("name", "Name")}
+            {this.renderButton("Register")}
           </form>
         </div>
       </div>
@@ -73,4 +68,4 @@ class LoginForm extends Form<Account, Account, LoginFormProps, LoginFormState> {
   }
 }
 
-export default LoginForm;
+export default RegisterForm;

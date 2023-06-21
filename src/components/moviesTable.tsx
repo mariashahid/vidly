@@ -1,9 +1,8 @@
 import * as React from "react";
 import { Component } from "react";
-import { Movie } from "../services/fakeMovieService";
+import { Movie } from "../services/movieService";
 import Like from "./common/like";
 import TableHeader, { Column } from "./common/tableHeader";
-import TableBody from "./common/tableBody";
 import Table from "./common/table";
 import { Link } from "react-router-dom";
 

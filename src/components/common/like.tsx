@@ -1,11 +1,6 @@
-import { render } from "@testing-library/react";
-import * as React from "react";
-import { Component } from "react";
-import { Movie } from "../../services/fakeMovieService";
-
 interface LikeProps {
   id: String;
-  liked: boolean;
+  liked?: boolean;
   onClick: () => void;
 }
 

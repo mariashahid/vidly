@@ -1,7 +1,5 @@
 import * as React from "react";
 import { Component } from "react";
-import { Movie } from "../../services/fakeMovieService";
-import { Genre } from "../../services/fakeGenreService";
 
 interface ListGroupProps<T extends { _id: String; name: String }> {
   items: T[];
@@ -19,6 +17,7 @@ const ListGroup = <T extends { _id: string; name: string }>(
           <li
             key={item._id}
             className={
+              props.selectedItem !== undefined &&
               props.selectedItem.name === item.name
                 ? "list-group-item active"
                 : "list-group-item"

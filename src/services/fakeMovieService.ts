@@ -1,5 +1,5 @@
 import { IIndexable } from "../components/common/tableBody";
-import { Genre, genres } from "./fakeGenreService";
+import { Genre, genres } from "./genreService";
 
 const movies: Movie[] = [
   {
@@ -77,16 +77,21 @@ const movies: Movie[] = [
   },
 ];
 
-export function getMovies() {
+function getMovies() {
   return movies;
 }
 
-export function getMovie(id: String) {
+function getMovie(id: String) {
   return movies.find((m) => m._id === id);
 }
 
-export function saveMovie(movie: Movie) {
-  let movieInDb: Movie = movies.find((m) => m._id === movie._id) as Movie;
+function saveMovie(movie: Movie) {
+  console.log(movie);
+  let movieInDb: Movie =
+    movie._id !== undefined && movie._id !== ""
+      ? (movies.find((m) => m._id === movie._id) as Movie)
+      : (movie as Movie);
+  console.log(movieInDb);
   movieInDb.title = movie.title;
   movieInDb.genre = genres.find((g) => g._id === movie.genre._id) as Genre;
   movieInDb.numberInStock = movie.numberInStock;
@@ -100,18 +105,18 @@ export function saveMovie(movie: Movie) {
   return movieInDb;
 }
 
-export function deleteMovie(id: String) {
+function deleteMovie(id: String) {
   let movieInDb: Movie = movies.find((m) => m._id === id) as Movie;
   movies.splice(movies.indexOf(movieInDb), 1);
   return movieInDb;
 }
 
-export interface Movie {
+interface Movie extends IIndexable<any> {
   _id: string;
   title: String;
   genre: Genre;
   numberInStock: Number;
   dailyRentalRate: Number;
   publishDate?: String;
-  liked: boolean;
+  liked?: boolean;
 }
