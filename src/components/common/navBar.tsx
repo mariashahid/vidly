@@ -1,10 +1,14 @@
 import * as React from "react";
 import { Component } from "react";
 import { NavLink, Link } from "react-router-dom";
+import { User } from "../../App";
 
-interface NavBarProps {}
+interface NavBarProps {
+  user: User | null;
+}
 
-const NavBar = (props: NavBarProps) => {
+const NavBar = ({ user }: NavBarProps) => {
+  console.log(user);
   return (
     <header className="App-header">
       <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -40,16 +44,34 @@ const NavBar = (props: NavBarProps) => {
                   Customers
                 </NavLink>
               </li>
-              <li className="nav-item">
-                <NavLink className="nav-link" to="/login">
-                  Login
-                </NavLink>
-              </li>
-              <li className="nav-item">
-                <NavLink className="nav-link" to="/register">
-                  Register
-                </NavLink>
-              </li>
+              {!user?._id && (
+                <React.Fragment>
+                  <li className="nav-item">
+                    <NavLink className="nav-link" to="/login">
+                      Login
+                    </NavLink>
+                  </li>
+                  <li className="nav-item">
+                    <NavLink className="nav-link" to="/register">
+                      Register
+                    </NavLink>
+                  </li>
+                </React.Fragment>
+              )}
+              {user?._id && (
+                <React.Fragment>
+                  <li className="nav-item">
+                    <NavLink className="nav-link" to="/profile">
+                      {user.name}
+                    </NavLink>
+                  </li>
+                  <li className="nav-item">
+                    <NavLink className="nav-link" to="/logout">
+                      Logout
+                    </NavLink>
+                  </li>
+                </React.Fragment>
+              )}
             </ul>
           </div>
         </div>

@@ -10,8 +10,11 @@ import _ from "lodash";
 import { Link } from "react-router-dom";
 import SearchBox from "./common/searchBox";
 import { getGenres, Genre } from "../services/genreService";
+import { User } from "../App";
 
-interface MoviesProps {}
+interface MoviesProps {
+  user: User | null;
+}
 
 interface MoviesState {
   movies: Movie[];
@@ -110,7 +113,8 @@ class Movies extends React.Component<MoviesProps, MoviesState> {
   };
 
   render() {
-    console.log("Rendering");
+    const { user } = this.props;
+
     const {
       movies: allMovies,
       currentPage,
@@ -129,9 +133,11 @@ class Movies extends React.Component<MoviesProps, MoviesState> {
     return (
       <React.Fragment>
         <h1>Movies</h1>
-        <Link to="/movies/new" className="btn btn-primary">
-          New Movie
-        </Link>
+        {user?._id && (
+          <Link to="/movies/new" className="btn btn-primary">
+            New Movie
+          </Link>
+        )}
         <div className="row mt-5">
           <div className="col-md-2">
             <ListGroup

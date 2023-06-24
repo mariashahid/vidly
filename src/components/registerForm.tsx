@@ -6,14 +6,19 @@ import { FormProps } from "react-router-dom";
 import { FormState } from "./common/form";
 import Form from "./common/form";
 import { IIndexable } from "./common/tableBody";
+import { register } from "../services/userService";
+import Toastify from "toastify";
+import { AxiosError } from "axios";
+import { withRouter, WithRouterProps } from "./common/withRouter";
+import auth from "../services/authService";
 
-interface RegisterFormProps extends FormProps {}
+interface RegisterFormProps extends FormProps, WithRouterProps {}
 
 type RegisterFormState = FormState<Account> & {
   loggedIn: boolean;
 };
 
-interface Account extends IIndexable<any> {
+export interface Account extends IIndexable<any> {
   email: string;
   password: string;
   name: string;
@@ -32,7 +37,7 @@ class RegisterForm extends Form<
     loggedIn: true,
   };
 
-  constructor(props: FormProps) {
+  constructor(props: FormProps & WithRouterProps) {
     super(props);
 
     this.schema = {
@@ -42,10 +47,22 @@ class RegisterForm extends Form<
     };
   }
 
-  doSubmit = () => {
-    alert(
-      "Hi! user:" + this.state.data.email + " pwd: " + this.state.data.password
-    );
+  doSubmit = async () => {
+    try {
+      const { data, headers } = await register(this.state.data);
+      auth.loginWithJwt(headers["x-auth-token"]);
+      window.location.assign("/");
+      Toastify.success("Hi! user:" + data.email + " pwd: " + data.name);
+    } catch (ex) {
+      const err = ex as AxiosError;
+      if (err.response && err.response.status === 400) {
+        Toastify.error("User already registered");
+      } else {
+        Toastify.error(
+          "There is an error registering user." + err.response?.statusText
+        );
+      }
+    }
   };
   componentDidMount(): void {}
 
@@ -68,4 +85,4 @@ class RegisterForm extends Form<
   }
 }
 
-export default RegisterForm;
+export default withRouter(RegisterForm);

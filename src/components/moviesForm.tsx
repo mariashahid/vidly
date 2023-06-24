@@ -76,6 +76,8 @@ class MoviesForm extends Form<
   doSubmit = async (movie: MovieViewModel) => {
     await saveMovie(this.toMovie(movie));
     this.props.navigate("/movies");
+    //const location = this.props.location;
+    //this.props.navigate("/login", { state: { from: location } });
   };
 
   toMovie = (movie: MovieViewModel) => {

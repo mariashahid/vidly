@@ -5,6 +5,7 @@ import Like from "./common/like";
 import TableHeader, { Column } from "./common/tableHeader";
 import Table from "./common/table";
 import { Link } from "react-router-dom";
+import auth from "../services/authService";
 
 interface MoviesTableProps {
   movies: Movie[];
@@ -44,20 +45,32 @@ class MoviesTable extends React.Component<MoviesTableProps, MoviesTableState> {
         ></Like>
       ),
     },
-    {
-      key: "delete",
-      content: (movie: Movie) => (
-        <button
-          className="btn btn-danger"
-          onClick={() => {
-            this.props.onDelete(movie);
-          }}
-        >
-          Delete
-        </button>
-      ),
-    },
   ];
+
+  deleteColumn = {
+    key: "delete",
+    content: (movie: Movie) => (
+      <button
+        className="btn btn-danger"
+        onClick={() => {
+          this.props.onDelete(movie);
+        }}
+      >
+        Delete
+      </button>
+    ),
+  };
+
+  constructor(props: MoviesTableProps) {
+    super(props);
+
+    const user = auth.getCurrentUser();
+
+    if (user && user.isAdmin) {
+      this.columns.push(this.deleteColumn);
+    }
+  }
+
   render() {
     const { movies, onSort, sortColumn } = this.props;
     return (

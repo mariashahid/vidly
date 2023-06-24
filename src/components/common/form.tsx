@@ -51,7 +51,6 @@ abstract class Form<
     if (errorMessage) errors[input.name as keyof T] = errorMessage;
     else delete errors[input.name as keyof T];
 
-    console.log(input);
     data[input.name as keyof T] = input.value as any;
     this.setState({ data, errors });
   };
@@ -61,8 +60,6 @@ abstract class Form<
       abortEarly: false,
     };
     const result = Joi.validate(this.state.data, this.schema, options);
-
-    console.log(result);
 
     if (!result.error) {
       return null;
