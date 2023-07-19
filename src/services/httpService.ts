@@ -2,6 +2,9 @@ import axios from "axios";
 import Toastify from "toastify";
 import auth from "../services/authService";
 
+axios.defaults.baseURL =
+  "https://vidly-api-node-git-main-mariashahid.vercel.app/api/";
+
 axios.interceptors.response.use(
   (response) => {
     return Promise.resolve(response);

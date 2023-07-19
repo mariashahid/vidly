@@ -2,7 +2,7 @@ import httpService from "./httpService";
 import config from "../utils/config.json";
 import { Account } from "../components/registerForm";
 
-const apiEndpoint = config.api + "users";
+const apiEndpoint = "users";
 
 export async function register(user: Account) {
   const userInDb = await httpService

@@ -7,17 +7,16 @@ import { MovieViewModel } from "../components/moviesForm";
 export let movies = [] as Movie[];
 
 export async function getMovies() {
-  movies = await httpService
-    .get<Movie[]>(config.api + "movies")
-    .then((response) => {
-      return response.data;
-    });
+  movies = await httpService.get<Movie[]>("movies").then((response) => {
+    console.log(response);
+    return response.data;
+  });
   return movies;
 }
 
 export async function getMovie(id: String) {
   const movie = await httpService
-    .get<Movie>(config.api + "movies/" + id)
+    .get<Movie>("movies/" + id)
     .then((response) => {
       return response.data;
     })
@@ -38,7 +37,7 @@ export async function saveMovie(movie: Movie) {
 
   if (!movieInDb._id) {
     movieInDb = await httpService
-      .post<Movie>(config.api + "movies", updatedMovie)
+      .post<Movie>("movies", updatedMovie)
       .then((response) => {
         return response.data;
       });
@@ -56,7 +55,7 @@ export async function saveMovie(movie: Movie) {
 export async function deleteMovie(id: String) {
   let movieInDb: Movie = await getMovie(id);
   console.log(movieInDb);
-  if (movieInDb != undefined) httpService.delete(config.api + "movies/" + id);
+  if (movieInDb != undefined) httpService.delete("movies/" + id);
   return movieInDb;
 }
 

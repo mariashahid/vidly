@@ -4,7 +4,7 @@ import { Account } from "../components/loginForm";
 import jwtDecode from "jwt-decode";
 import { User } from "../App";
 
-const apiEndpoint = config.api + "auth";
+const apiEndpoint = "auth";
 const tokenKey = "token";
 
 httpService.setJwt(getJwt());

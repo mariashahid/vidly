@@ -5,11 +5,9 @@ import config from "../utils/config.json";
 export const genres = [] as Genre[];
 
 export async function getGenres() {
-  const genres = await httpService
-    .get<Genre[]>(config.api + "genres")
-    .then((response) => {
-      return response.data;
-    });
+  const genres = await httpService.get<Genre[]>("genres").then((response) => {
+    return response.data;
+  });
   return genres;
 }
 
